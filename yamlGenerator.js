@@ -10,9 +10,9 @@ let numberOfPeers;
 let DB;
 let ordererName = "";
 
-var fileDataPeer = fileSystem.readFileSync('C:\\Users\\MazenEl-Shafie\\Documents\\YAML-Generator-Task\\peer.txt').toString();
-var fileDataCa = fileSystem.readFileSync('C:\\Users\\MazenEl-Shafie\\Documents\\YAML-Generator-Task\\ca.txt').toString();
-var fileDataOrderer = fileSystem.readFileSync('C:\\Users\\MazenEl-Shafie\\Documents\\YAML-Generator-Task\\orderer.txt').toString();
+var fileDataPeer = fileSystem.readFileSync('.\\peer.txt').toString();
+var fileDataCa = fileSystem.readFileSync('.\\ca.txt').toString();
+var fileDataOrderer = fileSystem.readFileSync('.\\orderer.txt').toString();
 
 const BlockchainSetup = (req,response,next) => {
     //console.log(req.body.numberOfPeers);
@@ -66,7 +66,7 @@ const BlockchainSetup = (req,response,next) => {
         }
     }
 
-    fileSystem.writeFileSync('C:\\Users\\MazenEl-Shafie\\Documents\\YAML-Generator-Task\\output.yaml',fileDataWrite);
+    fileSystem.writeFileSync('.\\output.yaml',fileDataWrite);
     response.send("Done el7.. please check output.yaml file");
 };
 

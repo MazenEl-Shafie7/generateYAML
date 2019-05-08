@@ -1,0 +1,23 @@
+OrdererOrgs:
+  - Name: MazenOrderer
+    Domain: domain.com
+    Specs:
+      - Hostname: orderer
+
+PeerOrgs:
+  - Name: Egypt
+    Domain: Egypt.domain.com
+    EnableNodeOUs: true
+    Template:
+      Count: 3
+    Users:
+      Count: 1
+
+  - Name: Alexandria
+    Domain: Alexandria.domain.com
+    EnableNodeOUs: true
+    Template:
+      Count: 3
+    Users:
+      Count: 1
+

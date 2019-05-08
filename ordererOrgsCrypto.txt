@@ -1,0 +1,5 @@
+OrdererOrgs:
+  - Name: MazenOrderer
+    Domain: mazen.com
+    Specs:
+      - Hostname: orderer

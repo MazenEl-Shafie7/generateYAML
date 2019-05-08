@@ -12,4 +12,4 @@
 		"db":"Couchdb",
 		"ordererName":"orderer"
 	}
-5- check the output.yaml file.
+5- check the output.yaml & output2.yaml files.

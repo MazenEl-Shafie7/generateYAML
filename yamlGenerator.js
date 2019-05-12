@@ -1,6 +1,7 @@
 var fileSystem = require("fs");
 var fileDataWrite = "";
 var fileDataWrite2 = "";
+var fileDataWrite3 = "";
 var fileDataPeer = '';
 var fileDataCa= '';
 var fileDataOrderer='';
@@ -14,9 +15,14 @@ let ordererName = "";
 var fileDataPeer = fileSystem.readFileSync('peer.txt').toString();
 var fileDataCa = fileSystem.readFileSync('ca.txt').toString();
 var fileDataOrderer = fileSystem.readFileSync('orderer.txt').toString();
+
 var fileDataCouchDB = fileSystem.readFileSync('couchDB.txt').toString();
 var fileDataOrdererOrgsCrypto = fileSystem.readFileSync('ordererOrgsCrypto.txt').toString();
 var fileDataPeerOrgsCrypto = fileSystem.readFileSync('peerOrgsCrypto.txt').toString();
+
+var fileDataConfigTxPart1 = fileSystem.readFileSync('configTxPart1.txt').toString();
+var fileDataConfigTxOrganizations = fileSystem.readFileSync('configTxOrganizations.txt').toString();
+var fileDataConfigTxPart3 = fileSystem.readFileSync('configTxPart3.txt').toString();
 
 const BlockchainSetup = (req,response,next) => {
     domainName = req.body.domainName;
@@ -109,8 +115,64 @@ const BlockchainSetup = (req,response,next) => {
         fileDataWrite2 += "\n";
     }
 
+    // ConfigTX ...
+    var configTXordererReplace = fileDataConfigTxPart1.replace(/orderer/g,ordererName);
+    var configTXdomainReplace = configTXordererReplace.replace(/mazen/g,domainName);
+    fileDataWrite3 += configTXdomainReplace;
+    fileDataWrite3 += "\n";
+    var replace7051 = "";
+    for(let q=0 ; q < numberOfOrganizations ; q++){
+        var configTxOrganizationsReplace = fileDataConfigTxOrganizations.replace(/microsoft/g,orgNames[q]);
+        var configTxOrganizationsReplaceDomain = configTxOrganizationsReplace.replace(/mazen/g,domainName);
+        replace7051 = 7051 + (q*1000*numberOfPeers);
+        var configTx7051Replace = configTxOrganizationsReplaceDomain.replace(/7051/g,replace7051);
+        fileDataWrite3 += configTx7051Replace;
+        fileDataWrite3 += "\n";
+    }
+    var part3domainReplace = fileDataConfigTxPart3.replace(/mazen/g,domainName);
+    var part3ordererReplace = part3domainReplace.replace(/orderer/g,ordererName);
+    var NumberReplacer="";
+    if( numberOfOrganizations == "1"){
+        NumberReplacer="One";
+    }
+    else if( numberOfOrganizations == "2"){
+        NumberReplacer="Two";
+    }
+    else if( numberOfOrganizations == "3"){
+        NumberReplacer="Three";
+    }
+    else if( numberOfOrganizations == "4"){
+        NumberReplacer="Four";
+    }
+    else if( numberOfOrganizations == "5"){
+        NumberReplacer="Five";
+    }
+    var part3NumberReplace = part3ordererReplace.replace(/Three/g,NumberReplacer);
+
+    var replacer = "";
+    var replacer2 = "";
+    for(let a=0 ; a < numberOfOrganizations ; a++){
+        if(a == 0){
+            replacer += orgNames[a];
+            replacer += "\n";
+            replacer2 += orgNames[a];
+            replacer2 += "\n";
+        }
+        else {
+            replacer += "\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0-\xa0*"+orgNames[a];
+            replacer += "\n";
+            replacer2 += "\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0-\xa0*"+orgNames[a];
+            replacer2 += "\n";
+        }
+    }
+    var part3OrgsReplace = part3NumberReplace.replace(/microsoft/g,replacer);
+    var part3firstOrgReplace = part3OrgsReplace.replace(/firstORG/g,replacer2);
+    fileDataWrite3 += part3firstOrgReplace;
+    fileDataWrite3 += "\n";
+    
     fileSystem.writeFileSync('output.yaml',fileDataWrite);
     fileSystem.writeFileSync('output2.yaml',fileDataWrite2);
+    fileSystem.writeFileSync('output3.yaml',fileDataWrite3);
     response.send("Done el7.. please check output.yaml file");
 };
 

@@ -1,20 +1,20 @@
 OrdererOrgs:
   - Name: MazenOrderer
-    Domain: domain.com
+    Domain: domain7.com
     Specs:
-      - Hostname: orderer
+      - Hostname: HnaOrderer1
 
 PeerOrgs:
-  - Name: Egypt
-    Domain: Egypt.domain.com
+  - Name: el7
+    Domain: el7.domain7.com
     EnableNodeOUs: true
     Template:
       Count: 3
     Users:
       Count: 1
 
-  - Name: Alexandria
-    Domain: Alexandria.domain.com
+  - Name: yarab
+    Domain: yarab.domain7.com
     EnableNodeOUs: true
     Template:
       Count: 3

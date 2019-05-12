@@ -12,4 +12,4 @@
 		"db":"Couchdb",
 		"ordererName":"orderer"
 	}
-5- check the output.yaml & output2.yaml files.
+5- check the output.yaml(docker.compose.e2e) & output2.yaml(crypto config) output3.yaml(configTx) files.

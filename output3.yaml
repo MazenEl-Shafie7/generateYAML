@@ -1,0 +1,231 @@
+Organizations:
+
+    - &OrdererOrg
+
+        Name: OrdererOrg
+
+        ID: OrdererMSP
+
+        MSPDir: crypto-config/HnaOrderer1Organizations/domain7.com/msp
+
+        Policies:
+            Readers:
+                Type: Signature
+                Rule: "OR('OrdererMSP.member')"
+            Writers:
+                Type: Signature
+                Rule: "OR('OrdererMSP.member')"
+            Admins:
+                Type: Signature
+                Rule: "OR('OrdererMSP.admin')"
+
+    - &el7
+        Name: el7MSP
+        ID: el7MSP
+        MSPDir: crypto-config/peerOrganizations/el7.domain7.com/msp
+        Policies:
+            Readers:
+                Type: Signature
+                Rule: "OR('el7MSP.admin', 'el7MSP.peer', 'el7MSP.client')"
+            Writers:
+                Type: Signature
+                Rule: "OR('el7MSP.admin', 'el7MSP.client')"
+            Admins:
+                Type: Signature
+                Rule: "OR('el7MSP.admin')"
+
+        AnchorPeers:
+            - Host: peer0.el7.domain7.com
+              Port: 7051
+
+    - &yarab
+        Name: yarabMSP
+        ID: yarabMSP
+        MSPDir: crypto-config/peerOrganizations/yarab.domain7.com/msp
+        Policies:
+            Readers:
+                Type: Signature
+                Rule: "OR('yarabMSP.admin', 'yarabMSP.peer', 'yarabMSP.client')"
+            Writers:
+                Type: Signature
+                Rule: "OR('yarabMSP.admin', 'yarabMSP.client')"
+            Admins:
+                Type: Signature
+                Rule: "OR('yarabMSP.admin')"
+
+        AnchorPeers:
+            - Host: peer0.yarab.domain7.com
+              Port: 10051
+
+Capabilities:
+    Channel: &ChannelCapabilities
+        V1_3: true.
+    Orderer: &OrdererCapabilities
+        V1_1: true
+    Application: &ApplicationCapabilities
+        V1_3: true
+        V1_2: false
+        V1_1: false
+
+Application: &ApplicationDefaults
+
+    Organizations:
+    Policies:
+        Readers:
+            Type: ImplicitMeta
+            Rule: "ANY Readers"
+        Writers:
+            Type: ImplicitMeta
+            Rule: "ANY Writers"
+        Admins:
+            Type: ImplicitMeta
+            Rule: "MAJORITY Admins"
+
+    Capabilities:
+        <<: *ApplicationCapabilities
+
+Orderer: &OrdererDefaults
+
+    OrdererType: solo
+
+    Addresses:
+        - HnaOrderer1.domain7.com:7050
+
+    BatchTimeout: 2s
+
+    BatchSize:
+
+        MaxMessageCount: 10
+
+        AbsoluteMaxBytes: 99 MB
+
+        PreferredMaxBytes: 512 KB
+
+    Kafka:
+
+        Brokers:
+            - 127.0.0.1:9092
+
+    Organizations:
+
+
+    Policies:
+        Readers:
+            Type: ImplicitMeta
+            Rule: "ANY Readers"
+        Writers:
+            Type: ImplicitMeta
+            Rule: "ANY Writers"
+        Admins:
+            Type: ImplicitMeta
+            Rule: "MAJORITY Admins"
+
+        BlockValidation:
+            Type: ImplicitMeta
+            Rule: "ANY Writers"
+
+
+Channel: &ChannelDefaults
+
+    Policies:
+        Readers:
+            Type: ImplicitMeta
+            Rule: "ANY Readers"
+        Writers:
+            Type: ImplicitMeta
+            Rule: "ANY Writers"
+        Admins:
+            Type: ImplicitMeta
+            Rule: "MAJORITY Admins"
+
+    Capabilities:
+        <<: *ChannelCapabilities
+
+Profiles:
+
+    TwoOrgsOrdererGenesis:
+        <<: *ChannelDefaults
+        Orderer:
+            <<: *OrdererDefaults
+            Organizations:
+                - *OrdererOrg
+            Capabilities:
+                <<: *OrdererCapabilities
+        Consortiums:
+            SampleConsortium:
+                Organizations:
+                    - *el7
+                    - *yarab
+
+
+    TwoOrgsChannel:
+        Consortium: SampleConsortium
+        <<: *ChannelDefaults
+        Application:
+            <<: *ApplicationDefaults
+            Organizations:
+                - *el7
+                - *yarab
+
+            Capabilities:
+                <<: *ApplicationCapabilities
+
+    SampleDevModeKafka:
+        <<: *ChannelDefaults
+        Capabilities:
+            <<: *ChannelCapabilities
+        Orderer:
+            <<: *OrdererDefaults
+            OrdererType: kafka
+            Kafka:
+                Brokers:
+                - kafka.domain7.com:9092
+
+            Organizations:
+            - *OrdererOrg
+            Capabilities:
+                <<: *OrdererCapabilities
+        Application:
+            <<: *ApplicationDefaults
+            Organizations:
+            - <<: *OrdererOrg
+        Consortiums:
+            SampleConsortium:
+                Organizations:
+                - *el7
+                - *yarab
+
+		
+    SampleMultiNodeEtcdRaft:
+        <<: *ChannelDefaults
+        Capabilities:
+            <<: *ChannelCapabilities
+        Orderer:
+            <<: *OrdererDefaults
+            OrdererType: etcdraft
+            EtcdRaft:
+                Consenters:
+                - Host: HnaOrderer1.domain7.com
+                  Port: 7050
+                  ClientTLSCert: crypto-config/HnaOrderer1Organizations/domain7.com/HnaOrderer1s/HnaOrderer1.domain7.com/tls/server.crt
+                  ServerTLSCert: crypto-config/HnaOrderer1Organizations/domain7.com/HnaOrderer1s/HnaOrderer1.domain7.com/tls/server.crt
+
+            Addresses:
+                - HnaOrderer1.domain7.com:7050
+ 
+
+            Organizations:
+            - *OrdererOrg
+            Capabilities:
+                <<: *OrdererCapabilities
+        Application:
+            <<: *ApplicationDefaults
+            Organizations:
+            - <<: *OrdererOrg
+        Consortiums:
+            SampleConsortium:
+                Organizations:
+                - *el7
+                - *yarab
+
+

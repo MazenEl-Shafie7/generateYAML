@@ -1,0 +1,18 @@
+    - &microsoft
+        Name: microsoftMSP
+        ID: microsoftMSP
+        MSPDir: crypto-config/peerOrganizations/microsoft.mazen.com/msp
+        Policies:
+            Readers:
+                Type: Signature
+                Rule: "OR('microsoftMSP.admin', 'microsoftMSP.peer', 'microsoftMSP.client')"
+            Writers:
+                Type: Signature
+                Rule: "OR('microsoftMSP.admin', 'microsoftMSP.client')"
+            Admins:
+                Type: Signature
+                Rule: "OR('microsoftMSP.admin')"
+
+        AnchorPeers:
+            - Host: peer0.microsoft.mazen.com
+              Port: 7051

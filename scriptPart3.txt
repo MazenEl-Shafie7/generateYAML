@@ -1,0 +1,38 @@
+    }
+    
+
+
+
+    function generateChannelArtifacts() {
+     which configtxgen
+     if [ "$?" -ne 0 ]; then
+     echo "configtxgen tool not found. exiting"
+     exit 1
+     fi
+     mkdir channel-artifacts
+     echo "CONSENSUS_TYPE="$CONSENSUS_TYPE
+     set -x
+     if [ "$CONSENSUS_TYPE" == "solo" ]; then
+     configtxgen -profile OrgsOrdererGenesis -channelID byfn-sys-channel -outputBlock ./channel-artifacts/genesis.block
+     elif [ "$CONSENSUS_TYPE" == "kafka" ]; then
+     configtxgen -profile SampleDevModeKafka -channelID byfn-sys-channel -outputBlock ./channel-artifacts/genesis.block
+     elif [ "$CONSENSUS_TYPE" == "etcdraft" ]; then
+     configtxgen -profile SampleMultiNodeEtcdRaft -channelID byfn-sys-channel -outputBlock ./channel-artifacts/genesis.block
+     else
+     set +x
+     echo "unrecognized CONSESUS_TYPE='$CONSENSUS_TYPE'. exiting"
+     exit 1
+     fi
+     res=$?
+     set +x
+     if [ $res -ne 0 ]; then
+     echo "Failed to generate orderer genesis block..."
+     exit 1
+     fi
+     configtxgen -profile OrgsChannel -outputCreateChannelTx ./channel-artifacts/channel.tx -channelID $CHANNEL_NAME
+     res=$?
+     set +x
+     if [ $res -ne 0 ]; then
+     echo "Failed to generate channel configuration transaction..."
+     exit 1
+     fi

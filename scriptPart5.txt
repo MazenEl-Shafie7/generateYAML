@@ -1,0 +1,37 @@
+    }
+
+
+
+    function networkUp(){
+     docker-compose -f $COMPOSE_FILE up -d
+    echo "Network is up"
+    }
+
+
+
+
+    function networkDown(){
+     docker-compose -f docker-compose-e2e-up.yaml down --volumes --remove-orphans
+     rm -f docker-compose-e2e-up.yaml
+    echo "Network is down"
+    }
+    
+
+
+
+    COMPOSE_FILE=docker-compose-e2e-up.yaml
+    MODE=$1
+    CHANNEL_NAME="mychannel"
+    CONSENSUS_TYPE="solo"
+    
+    if [ "${MODE}" == "up" ]; then
+    networkUp
+    elif [ "${MODE}" == "generate" ]; then
+    generateCerts
+    replacePrivateKey
+    generateChannelArtifacts
+    elif [ "${MODE}" == "down" ]; then 
+    networkDown
+    fi
+
+

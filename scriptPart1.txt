@@ -1,0 +1,35 @@
+    echo "Build is executing"
+    
+    function generateCerts() {
+     which cryptogen
+     if [ "$?" -ne 0 ]; then
+     echo "cryptogen tool not found. exiting"
+     exit 1
+     fi
+    
+     if [ -d "crypto-config" ]; then
+     rm -Rf crypto-config
+     fi
+     set -x
+     cryptogen generate --config=./crypto-config.yaml
+     res=$?
+     set +x
+     if [ $res -ne 0 ]; then
+     echo "Failed to generate certificates..."
+     exit 1
+     fi
+    }
+    
+
+
+
+    function replacePrivateKey() {
+     ARCH=$(uname -s | grep Darwin)
+     if [ "$ARCH" == "Darwin" ]; then
+     OPTS="-it"
+     else
+     OPTS="-i"
+     fi
+    
+     cp docker-compose-e2e.yaml docker-compose-e2e-up.yaml
+     CURRENT_DIR=$PWD

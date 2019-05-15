@@ -19,42 +19,42 @@ Organizations:
                 Type: Signature
                 Rule: "OR('OrdererMSP.admin')"
 
-    - &el7
-        Name: el7MSP
-        ID: el7MSP
-        MSPDir: crypto-config/peerOrganizations/el7.domain7.com/msp
+    - &FBI
+        Name: FBIMSP
+        ID: FBIMSP
+        MSPDir: crypto-config/peerOrganizations/FBI.domain7.com/msp
         Policies:
             Readers:
                 Type: Signature
-                Rule: "OR('el7MSP.admin', 'el7MSP.peer', 'el7MSP.client')"
+                Rule: "OR('FBIMSP.admin', 'FBIMSP.peer', 'FBIMSP.client')"
             Writers:
                 Type: Signature
-                Rule: "OR('el7MSP.admin', 'el7MSP.client')"
+                Rule: "OR('FBIMSP.admin', 'FBIMSP.client')"
             Admins:
                 Type: Signature
-                Rule: "OR('el7MSP.admin')"
+                Rule: "OR('FBIMSP.admin')"
 
         AnchorPeers:
-            - Host: peer0.el7.domain7.com
+            - Host: peer0.FBI.domain7.com
               Port: 7051
 
-    - &yarab
-        Name: yarabMSP
-        ID: yarabMSP
-        MSPDir: crypto-config/peerOrganizations/yarab.domain7.com/msp
+    - &NBA
+        Name: NBAMSP
+        ID: NBAMSP
+        MSPDir: crypto-config/peerOrganizations/NBA.domain7.com/msp
         Policies:
             Readers:
                 Type: Signature
-                Rule: "OR('yarabMSP.admin', 'yarabMSP.peer', 'yarabMSP.client')"
+                Rule: "OR('NBAMSP.admin', 'NBAMSP.peer', 'NBAMSP.client')"
             Writers:
                 Type: Signature
-                Rule: "OR('yarabMSP.admin', 'yarabMSP.client')"
+                Rule: "OR('NBAMSP.admin', 'NBAMSP.client')"
             Admins:
                 Type: Signature
-                Rule: "OR('yarabMSP.admin')"
+                Rule: "OR('NBAMSP.admin')"
 
         AnchorPeers:
-            - Host: peer0.yarab.domain7.com
+            - Host: peer0.NBA.domain7.com
               Port: 10051
 
 Capabilities:
@@ -154,8 +154,8 @@ Profiles:
         Consortiums:
             SampleConsortium:
                 Organizations:
-                    - *el7
-                    - *yarab
+                    - *FBI
+                    - *NBA
 
 
     TwoOrgsChannel:
@@ -164,8 +164,8 @@ Profiles:
         Application:
             <<: *ApplicationDefaults
             Organizations:
-                - *el7
-                - *yarab
+                - *FBI
+                - *NBA
 
             Capabilities:
                 <<: *ApplicationCapabilities
@@ -192,8 +192,8 @@ Profiles:
         Consortiums:
             SampleConsortium:
                 Organizations:
-                - *el7
-                - *yarab
+                - *FBI
+                - *NBA
 
 		
     SampleMultiNodeEtcdRaft:
@@ -225,7 +225,7 @@ Profiles:
         Consortiums:
             SampleConsortium:
                 Organizations:
-                - *el7
-                - *yarab
+                - *FBI
+                - *NBA
 
 

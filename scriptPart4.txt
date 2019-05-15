@@ -1,0 +1,7 @@
+ 	configtxgen -profile OrgsChannel -outputAnchorPeersUpdate ./channel-artifacts/ORGNAMEMSPanchors.tx -channelID $CHANNEL_NAME -asOrg ORGNAMEMSP
+       res=$?
+       set +x
+       if [ $res -ne 0 ]; then
+       echo "Failed to generate anchor peer update for ORGNAMEMSP..."
+       exit 1
+       fi

@@ -1,49 +1,23 @@
-# Copyright IBM Corp. All Rights Reserved.
-#
-# SPDX-License-Identifier: Apache-2.0
-#
-
-# ---------------------------------------------------------------------------
-# "OrdererOrgs" - Definition of organizations managing orderer nodes
-# ---------------------------------------------------------------------------
 OrdererOrgs:
-  # ---------------------------------------------------------------------------
-  # Orderer
-  # ---------------------------------------------------------------------------
   - Name: MazenOrderer
-    Domain: mazen.com
-    # ---------------------------------------------------------------------------
-    # "Specs" - See PeerOrgs below for complete description
-    # ---------------------------------------------------------------------------
+    Domain: domain7.com
     Specs:
-      - Hostname: orderer
+      - Hostname: HnaOrderer1
 
-
-# ---------------------------------------------------------------------------
-# "PeerOrgs" - Definition of organizations managing peer nodes
-# ---------------------------------------------------------------------------
 PeerOrgs:
-
-  - Name: microsoft
-    Domain: microsoft.mazen.com
+  - Name: FBI
+    Domain: FBI.domain7.com
     EnableNodeOUs: true
     Template:
-      Count: 2
+      Count: 3
     Users:
       Count: 1
 
-  - Name: oracle
-    Domain: oracle.mazen.com
+  - Name: NBA
+    Domain: NBA.domain7.com
     EnableNodeOUs: true
     Template:
-      Count: 2
+      Count: 3
     Users:
       Count: 1
 
-  - Name: dell
-    Domain: dell.mazen.com
-    EnableNodeOUs: true
-    Template:
-      Count: 2
-    Users:
-      Count: 1

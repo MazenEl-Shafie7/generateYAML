@@ -5,16 +5,16 @@ OrdererOrgs:
       - Hostname: HnaOrderer1
 
 PeerOrgs:
-  - Name: FBI
-    Domain: FBI.domain7.com
+  - Name: Yarab
+    Domain: Yarab.domain7.com
     EnableNodeOUs: true
     Template:
       Count: 3
     Users:
       Count: 1
 
-  - Name: NBA
-    Domain: NBA.domain7.com
+  - Name: YarabTany
+    Domain: YarabTany.domain7.com
     EnableNodeOUs: true
     Template:
       Count: 3

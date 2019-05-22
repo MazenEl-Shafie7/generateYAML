@@ -1,47 +1,47 @@
 version: '2'
 volumes:
   HnaOrderer1.domain7.com
-  peer0.FBI.domain7.com
-  peer1.FBI.domain7.com
-  peer2.FBI.domain7.com
-  peer0.NBA.domain7.com
-  peer1.NBA.domain7.com
-  peer2.NBA.domain7.com
+  peer0.Yarab.domain7.com
+  peer1.Yarab.domain7.com
+  peer2.Yarab.domain7.com
+  peer0.YarabTany.domain7.com
+  peer1.YarabTany.domain7.com
+  peer2.YarabTany.domain7.com
 
 networks:
   byfn:
 services:
-  FBICA:
+  YarabCA:
     image: hyperledger/fabric-ca:1.4
     environment:
       - FABRIC_CA_HOME=/etc/hyperledger/fabric-ca-server
-      - FABRIC_CA_SERVER_CA_NAME=ca-FBI
+      - FABRIC_CA_SERVER_CA_NAME=ca-Yarab
       - FABRIC_CA_SERVER_TLS_ENABLED=true
-      - FABRIC_CA_SERVER_TLS_CERTFILE=/etc/hyperledger/fabric-ca-server-config/ca.FBI.domain7.com-cert.pem
+      - FABRIC_CA_SERVER_TLS_CERTFILE=/etc/hyperledger/fabric-ca-server-config/ca.Yarab.domain7.com-cert.pem
       - FABRIC_CA_SERVER_TLS_KEYFILE=/etc/hyperledger/fabric-ca-server-config/CA2_PRIVATE_KEY
     ports:
       - "8054:7054"
-    command: sh -c 'fabric-ca-server start --ca.certfile /etc/hyperledger/fabric-ca-server-config/ca.FBI.domain7.com-cert.pem --ca.keyfile /etc/hyperledger/fabric-ca-server-config/CA2_PRIVATE_KEY -b admin:adminpw -d'
+    command: sh -c 'fabric-ca-server start --ca.certfile /etc/hyperledger/fabric-ca-server-config/ca.Yarab.domain7.com-cert.pem --ca.keyfile /etc/hyperledger/fabric-ca-server-config/CA2_PRIVATE_KEY -b admin:adminpw -d'
     volumes:
-      - ./crypto-config/peerOrganizations/FBI.domain7.com/ca/:/etc/hyperledger/fabric-ca-server-config
-    container_name: ca_peerFBI
+      - ./crypto-config/peerOrganizations/Yarab.domain7.com/ca/:/etc/hyperledger/fabric-ca-server-config
+    container_name: ca_peerYarab
     networks:
       - byfn
 
-  NBACA:
+  YarabTanyCA:
     image: hyperledger/fabric-ca:1.4
     environment:
       - FABRIC_CA_HOME=/etc/hyperledger/fabric-ca-server
-      - FABRIC_CA_SERVER_CA_NAME=ca-NBA
+      - FABRIC_CA_SERVER_CA_NAME=ca-YarabTany
       - FABRIC_CA_SERVER_TLS_ENABLED=true
-      - FABRIC_CA_SERVER_TLS_CERTFILE=/etc/hyperledger/fabric-ca-server-config/ca.NBA.domain7.com-cert.pem
+      - FABRIC_CA_SERVER_TLS_CERTFILE=/etc/hyperledger/fabric-ca-server-config/ca.YarabTany.domain7.com-cert.pem
       - FABRIC_CA_SERVER_TLS_KEYFILE=/etc/hyperledger/fabric-ca-server-config/CA2_PRIVATE_KEY
     ports:
       - "8054:7054"
-    command: sh -c 'fabric-ca-server start --ca.certfile /etc/hyperledger/fabric-ca-server-config/ca.NBA.domain7.com-cert.pem --ca.keyfile /etc/hyperledger/fabric-ca-server-config/CA2_PRIVATE_KEY -b admin:adminpw -d'
+    command: sh -c 'fabric-ca-server start --ca.certfile /etc/hyperledger/fabric-ca-server-config/ca.YarabTany.domain7.com-cert.pem --ca.keyfile /etc/hyperledger/fabric-ca-server-config/CA2_PRIVATE_KEY -b admin:adminpw -d'
     volumes:
-      - ./crypto-config/peerOrganizations/NBA.domain7.com/ca/:/etc/hyperledger/fabric-ca-server-config
-    container_name: ca_peerNBA
+      - ./crypto-config/peerOrganizations/YarabTany.domain7.com/ca/:/etc/hyperledger/fabric-ca-server-config
+    container_name: ca_peerYarabTany
     networks:
       - byfn
 
@@ -76,8 +76,8 @@ services:
     container_name: HnaOrderer1.domain7.com
     networks:
       - byfn
-  peer0.FBI.domain7.com:
-    container_name: peer0.FBI.domain7.com
+  peer0.Yarab.domain7.com:
+    container_name: peer0.Yarab.domain7.com
     image: hyperledger/fabric-peer:1.4
     environment:
       - CORE_VM_ENDPOINT=unix:///host/var/run/docker.sock
@@ -94,14 +94,14 @@ services:
       - CORE_PEER_TLS_CERT_FILE=/etc/hyperledger/fabric/tls/server.crt
       - CORE_PEER_TLS_KEY_FILE=/etc/hyperledger/fabric/tls/server.key
       - CORE_PEER_TLS_ROOTCERT_FILE=/etc/hyperledger/fabric/tls/ca.crt
-      - CORE_PEER_ID=peer0.FBI.domain7.com
-      - CORE_PEER_ADDRESS=peer0.FBI.domain7.com:7051
+      - CORE_PEER_ID=peer0.Yarab.domain7.com
+      - CORE_PEER_ADDRESS=peer0.Yarab.domain7.com:7051
       - CORE_PEER_LISTENADDRESS=0.0.0.0:7051
-      - CORE_PEER_CHAINCODEADDRESS=peer0.FBI.domain7.com:7052
+      - CORE_PEER_CHAINCODEADDRESS=peer0.Yarab.domain7.com:7052
       - CORE_PEER_CHAINCODELISTENADDRESS=0.0.0.0:7052
-      - CORE_PEER_GOSSIP_BOOTSTRAP=peer1.FBI.domain7.com:8051
-      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer0.FBI.domain7.com:7051
-      - CORE_PEER_LOCALMSPID=FBIMSP
+      - CORE_PEER_GOSSIP_BOOTSTRAP=peer1.Yarab.domain7.com:8051
+      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer0.Yarab.domain7.com:7051
+      - CORE_PEER_LOCALMSPID=YarabMSP
       - CORE_LEDGER_STATE_STATEDATABASE=CouchDB
       - CORE_LEDGER_STATE_COUCHDBCONFIG_COUCHDBADDRESS=couchdb0:5984
       # The CORE_LEDGER_STATE_COUCHDBCONFIG_USERNAME and CORE_LEDGER_STATE_COUCHDBCONFIG_PASSWORD
@@ -115,16 +115,16 @@ services:
     command: peer node start
     volumes:
         - /var/run/:/host/var/run/
-        - ../crypto-config/peerOrganizations/FBI.domain7.com/peers/peer0.FBI.domain7.com/msp:/etc/hyperledger/fabric/msp
-        - ../crypto-config/peerOrganizations/FBI.domain7.com/peers/peer0.FBI.domain7.com/tls:/etc/hyperledger/fabric/tls
-        - peer0.FBI.domain7.com:/var/hyperledger/production
+        - ../crypto-config/peerOrganizations/Yarab.domain7.com/peers/peer0.Yarab.domain7.com/msp:/etc/hyperledger/fabric/msp
+        - ../crypto-config/peerOrganizations/Yarab.domain7.com/peers/peer0.Yarab.domain7.com/tls:/etc/hyperledger/fabric/tls
+        - peer0.Yarab.domain7.com:/var/hyperledger/production
     ports:
       - 7051:7051
     networks:
       - byfn
 
-  peer1.FBI.domain7.com:
-    container_name: peer1.FBI.domain7.com
+  peer1.Yarab.domain7.com:
+    container_name: peer1.Yarab.domain7.com
     image: hyperledger/fabric-peer:1.4
     environment:
       - CORE_VM_ENDPOINT=unix:///host/var/run/docker.sock
@@ -141,14 +141,14 @@ services:
       - CORE_PEER_TLS_CERT_FILE=/etc/hyperledger/fabric/tls/server.crt
       - CORE_PEER_TLS_KEY_FILE=/etc/hyperledger/fabric/tls/server.key
       - CORE_PEER_TLS_ROOTCERT_FILE=/etc/hyperledger/fabric/tls/ca.crt
-      - CORE_PEER_ID=peer1.FBI.domain7.com
-      - CORE_PEER_ADDRESS=peer1.FBI.domain7.com:8051
+      - CORE_PEER_ID=peer1.Yarab.domain7.com
+      - CORE_PEER_ADDRESS=peer1.Yarab.domain7.com:8051
       - CORE_PEER_LISTENADDRESS=0.0.0.0:8051
-      - CORE_PEER_CHAINCODEADDRESS=peer1.FBI.domain7.com:8052
+      - CORE_PEER_CHAINCODEADDRESS=peer1.Yarab.domain7.com:8052
       - CORE_PEER_CHAINCODELISTENADDRESS=0.0.0.0:8052
-      - CORE_PEER_GOSSIP_BOOTSTRAP=peer1.FBI.domain7.com:7051
-      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer1.FBI.domain7.com:8051
-      - CORE_PEER_LOCALMSPID=FBIMSP
+      - CORE_PEER_GOSSIP_BOOTSTRAP=peer1.Yarab.domain7.com:7051
+      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer1.Yarab.domain7.com:8051
+      - CORE_PEER_LOCALMSPID=YarabMSP
       - CORE_LEDGER_STATE_STATEDATABASE=CouchDB
       - CORE_LEDGER_STATE_COUCHDBCONFIG_COUCHDBADDRESS=couchdb1:5984
       # The CORE_LEDGER_STATE_COUCHDBCONFIG_USERNAME and CORE_LEDGER_STATE_COUCHDBCONFIG_PASSWORD
@@ -162,16 +162,16 @@ services:
     command: peer node start
     volumes:
         - /var/run/:/host/var/run/
-        - ../crypto-config/peerOrganizations/FBI.domain7.com/peers/peer1.FBI.domain7.com/msp:/etc/hyperledger/fabric/msp
-        - ../crypto-config/peerOrganizations/FBI.domain7.com/peers/peer1.FBI.domain7.com/tls:/etc/hyperledger/fabric/tls
-        - peer1.FBI.domain7.com:/var/hyperledger/production
+        - ../crypto-config/peerOrganizations/Yarab.domain7.com/peers/peer1.Yarab.domain7.com/msp:/etc/hyperledger/fabric/msp
+        - ../crypto-config/peerOrganizations/Yarab.domain7.com/peers/peer1.Yarab.domain7.com/tls:/etc/hyperledger/fabric/tls
+        - peer1.Yarab.domain7.com:/var/hyperledger/production
     ports:
       - 8051:8051
     networks:
       - byfn
 
-  peer2.FBI.domain7.com:
-    container_name: peer2.FBI.domain7.com
+  peer2.Yarab.domain7.com:
+    container_name: peer2.Yarab.domain7.com
     image: hyperledger/fabric-peer:1.4
     environment:
       - CORE_VM_ENDPOINT=unix:///host/var/run/docker.sock
@@ -188,14 +188,14 @@ services:
       - CORE_PEER_TLS_CERT_FILE=/etc/hyperledger/fabric/tls/server.crt
       - CORE_PEER_TLS_KEY_FILE=/etc/hyperledger/fabric/tls/server.key
       - CORE_PEER_TLS_ROOTCERT_FILE=/etc/hyperledger/fabric/tls/ca.crt
-      - CORE_PEER_ID=peer2.FBI.domain7.com
-      - CORE_PEER_ADDRESS=peer2.FBI.domain7.com:9051
+      - CORE_PEER_ID=peer2.Yarab.domain7.com
+      - CORE_PEER_ADDRESS=peer2.Yarab.domain7.com:9051
       - CORE_PEER_LISTENADDRESS=0.0.0.0:9051
-      - CORE_PEER_CHAINCODEADDRESS=peer2.FBI.domain7.com:9052
+      - CORE_PEER_CHAINCODEADDRESS=peer2.Yarab.domain7.com:9052
       - CORE_PEER_CHAINCODELISTENADDRESS=0.0.0.0:9052
-      - CORE_PEER_GOSSIP_BOOTSTRAP=peer1.FBI.domain7.com:8051
-      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer2.FBI.domain7.com:9051
-      - CORE_PEER_LOCALMSPID=FBIMSP
+      - CORE_PEER_GOSSIP_BOOTSTRAP=peer1.Yarab.domain7.com:8051
+      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer2.Yarab.domain7.com:9051
+      - CORE_PEER_LOCALMSPID=YarabMSP
       - CORE_LEDGER_STATE_STATEDATABASE=CouchDB
       - CORE_LEDGER_STATE_COUCHDBCONFIG_COUCHDBADDRESS=couchdb2:5984
       # The CORE_LEDGER_STATE_COUCHDBCONFIG_USERNAME and CORE_LEDGER_STATE_COUCHDBCONFIG_PASSWORD
@@ -209,16 +209,16 @@ services:
     command: peer node start
     volumes:
         - /var/run/:/host/var/run/
-        - ../crypto-config/peerOrganizations/FBI.domain7.com/peers/peer2.FBI.domain7.com/msp:/etc/hyperledger/fabric/msp
-        - ../crypto-config/peerOrganizations/FBI.domain7.com/peers/peer2.FBI.domain7.com/tls:/etc/hyperledger/fabric/tls
-        - peer2.FBI.domain7.com:/var/hyperledger/production
+        - ../crypto-config/peerOrganizations/Yarab.domain7.com/peers/peer2.Yarab.domain7.com/msp:/etc/hyperledger/fabric/msp
+        - ../crypto-config/peerOrganizations/Yarab.domain7.com/peers/peer2.Yarab.domain7.com/tls:/etc/hyperledger/fabric/tls
+        - peer2.Yarab.domain7.com:/var/hyperledger/production
     ports:
       - 9051:9051
     networks:
       - byfn
 
-  peer0.NBA.domain7.com:
-    container_name: peer0.NBA.domain7.com
+  peer0.YarabTany.domain7.com:
+    container_name: peer0.YarabTany.domain7.com
     image: hyperledger/fabric-peer:1.4
     environment:
       - CORE_VM_ENDPOINT=unix:///host/var/run/docker.sock
@@ -235,14 +235,14 @@ services:
       - CORE_PEER_TLS_CERT_FILE=/etc/hyperledger/fabric/tls/server.crt
       - CORE_PEER_TLS_KEY_FILE=/etc/hyperledger/fabric/tls/server.key
       - CORE_PEER_TLS_ROOTCERT_FILE=/etc/hyperledger/fabric/tls/ca.crt
-      - CORE_PEER_ID=peer0.NBA.domain7.com
-      - CORE_PEER_ADDRESS=peer0.NBA.domain7.com:10051
+      - CORE_PEER_ID=peer0.YarabTany.domain7.com
+      - CORE_PEER_ADDRESS=peer0.YarabTany.domain7.com:10051
       - CORE_PEER_LISTENADDRESS=0.0.0.0:10051
-      - CORE_PEER_CHAINCODEADDRESS=peer0.NBA.domain7.com:10052
+      - CORE_PEER_CHAINCODEADDRESS=peer0.YarabTany.domain7.com:10052
       - CORE_PEER_CHAINCODELISTENADDRESS=0.0.0.0:10052
-      - CORE_PEER_GOSSIP_BOOTSTRAP=peer1.NBA.domain7.com:11051
-      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer0.NBA.domain7.com:10051
-      - CORE_PEER_LOCALMSPID=NBAMSP
+      - CORE_PEER_GOSSIP_BOOTSTRAP=peer1.YarabTany.domain7.com:11051
+      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer0.YarabTany.domain7.com:10051
+      - CORE_PEER_LOCALMSPID=YarabTanyMSP
       - CORE_LEDGER_STATE_STATEDATABASE=CouchDB
       - CORE_LEDGER_STATE_COUCHDBCONFIG_COUCHDBADDRESS=couchdb3:5984
       # The CORE_LEDGER_STATE_COUCHDBCONFIG_USERNAME and CORE_LEDGER_STATE_COUCHDBCONFIG_PASSWORD
@@ -256,16 +256,16 @@ services:
     command: peer node start
     volumes:
         - /var/run/:/host/var/run/
-        - ../crypto-config/peerOrganizations/NBA.domain7.com/peers/peer0.NBA.domain7.com/msp:/etc/hyperledger/fabric/msp
-        - ../crypto-config/peerOrganizations/NBA.domain7.com/peers/peer0.NBA.domain7.com/tls:/etc/hyperledger/fabric/tls
-        - peer0.NBA.domain7.com:/var/hyperledger/production
+        - ../crypto-config/peerOrganizations/YarabTany.domain7.com/peers/peer0.YarabTany.domain7.com/msp:/etc/hyperledger/fabric/msp
+        - ../crypto-config/peerOrganizations/YarabTany.domain7.com/peers/peer0.YarabTany.domain7.com/tls:/etc/hyperledger/fabric/tls
+        - peer0.YarabTany.domain7.com:/var/hyperledger/production
     ports:
       - 10051:10051
     networks:
       - byfn
 
-  peer1.NBA.domain7.com:
-    container_name: peer1.NBA.domain7.com
+  peer1.YarabTany.domain7.com:
+    container_name: peer1.YarabTany.domain7.com
     image: hyperledger/fabric-peer:1.4
     environment:
       - CORE_VM_ENDPOINT=unix:///host/var/run/docker.sock
@@ -282,14 +282,14 @@ services:
       - CORE_PEER_TLS_CERT_FILE=/etc/hyperledger/fabric/tls/server.crt
       - CORE_PEER_TLS_KEY_FILE=/etc/hyperledger/fabric/tls/server.key
       - CORE_PEER_TLS_ROOTCERT_FILE=/etc/hyperledger/fabric/tls/ca.crt
-      - CORE_PEER_ID=peer1.NBA.domain7.com
-      - CORE_PEER_ADDRESS=peer1.NBA.domain7.com:11051
+      - CORE_PEER_ID=peer1.YarabTany.domain7.com
+      - CORE_PEER_ADDRESS=peer1.YarabTany.domain7.com:11051
       - CORE_PEER_LISTENADDRESS=0.0.0.0:11051
-      - CORE_PEER_CHAINCODEADDRESS=peer1.NBA.domain7.com:11052
+      - CORE_PEER_CHAINCODEADDRESS=peer1.YarabTany.domain7.com:11052
       - CORE_PEER_CHAINCODELISTENADDRESS=0.0.0.0:11052
-      - CORE_PEER_GOSSIP_BOOTSTRAP=peer1.NBA.domain7.com:10051
-      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer1.NBA.domain7.com:11051
-      - CORE_PEER_LOCALMSPID=NBAMSP
+      - CORE_PEER_GOSSIP_BOOTSTRAP=peer1.YarabTany.domain7.com:10051
+      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer1.YarabTany.domain7.com:11051
+      - CORE_PEER_LOCALMSPID=YarabTanyMSP
       - CORE_LEDGER_STATE_STATEDATABASE=CouchDB
       - CORE_LEDGER_STATE_COUCHDBCONFIG_COUCHDBADDRESS=couchdb4:5984
       # The CORE_LEDGER_STATE_COUCHDBCONFIG_USERNAME and CORE_LEDGER_STATE_COUCHDBCONFIG_PASSWORD
@@ -303,16 +303,16 @@ services:
     command: peer node start
     volumes:
         - /var/run/:/host/var/run/
-        - ../crypto-config/peerOrganizations/NBA.domain7.com/peers/peer1.NBA.domain7.com/msp:/etc/hyperledger/fabric/msp
-        - ../crypto-config/peerOrganizations/NBA.domain7.com/peers/peer1.NBA.domain7.com/tls:/etc/hyperledger/fabric/tls
-        - peer1.NBA.domain7.com:/var/hyperledger/production
+        - ../crypto-config/peerOrganizations/YarabTany.domain7.com/peers/peer1.YarabTany.domain7.com/msp:/etc/hyperledger/fabric/msp
+        - ../crypto-config/peerOrganizations/YarabTany.domain7.com/peers/peer1.YarabTany.domain7.com/tls:/etc/hyperledger/fabric/tls
+        - peer1.YarabTany.domain7.com:/var/hyperledger/production
     ports:
       - 11051:11051
     networks:
       - byfn
 
-  peer2.NBA.domain7.com:
-    container_name: peer2.NBA.domain7.com
+  peer2.YarabTany.domain7.com:
+    container_name: peer2.YarabTany.domain7.com
     image: hyperledger/fabric-peer:1.4
     environment:
       - CORE_VM_ENDPOINT=unix:///host/var/run/docker.sock
@@ -329,14 +329,14 @@ services:
       - CORE_PEER_TLS_CERT_FILE=/etc/hyperledger/fabric/tls/server.crt
       - CORE_PEER_TLS_KEY_FILE=/etc/hyperledger/fabric/tls/server.key
       - CORE_PEER_TLS_ROOTCERT_FILE=/etc/hyperledger/fabric/tls/ca.crt
-      - CORE_PEER_ID=peer2.NBA.domain7.com
-      - CORE_PEER_ADDRESS=peer2.NBA.domain7.com:12051
+      - CORE_PEER_ID=peer2.YarabTany.domain7.com
+      - CORE_PEER_ADDRESS=peer2.YarabTany.domain7.com:12051
       - CORE_PEER_LISTENADDRESS=0.0.0.0:12051
-      - CORE_PEER_CHAINCODEADDRESS=peer2.NBA.domain7.com:12052
+      - CORE_PEER_CHAINCODEADDRESS=peer2.YarabTany.domain7.com:12052
       - CORE_PEER_CHAINCODELISTENADDRESS=0.0.0.0:12052
-      - CORE_PEER_GOSSIP_BOOTSTRAP=peer1.NBA.domain7.com:11051
-      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer2.NBA.domain7.com:12051
-      - CORE_PEER_LOCALMSPID=NBAMSP
+      - CORE_PEER_GOSSIP_BOOTSTRAP=peer1.YarabTany.domain7.com:11051
+      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer2.YarabTany.domain7.com:12051
+      - CORE_PEER_LOCALMSPID=YarabTanyMSP
       - CORE_LEDGER_STATE_STATEDATABASE=CouchDB
       - CORE_LEDGER_STATE_COUCHDBCONFIG_COUCHDBADDRESS=couchdb5:5984
       # The CORE_LEDGER_STATE_COUCHDBCONFIG_USERNAME and CORE_LEDGER_STATE_COUCHDBCONFIG_PASSWORD
@@ -350,9 +350,9 @@ services:
     command: peer node start
     volumes:
         - /var/run/:/host/var/run/
-        - ../crypto-config/peerOrganizations/NBA.domain7.com/peers/peer2.NBA.domain7.com/msp:/etc/hyperledger/fabric/msp
-        - ../crypto-config/peerOrganizations/NBA.domain7.com/peers/peer2.NBA.domain7.com/tls:/etc/hyperledger/fabric/tls
-        - peer2.NBA.domain7.com:/var/hyperledger/production
+        - ../crypto-config/peerOrganizations/YarabTany.domain7.com/peers/peer2.YarabTany.domain7.com/msp:/etc/hyperledger/fabric/msp
+        - ../crypto-config/peerOrganizations/YarabTany.domain7.com/peers/peer2.YarabTany.domain7.com/tls:/etc/hyperledger/fabric/tls
+        - peer2.YarabTany.domain7.com:/var/hyperledger/production
     ports:
       - 12051:12051
     networks:

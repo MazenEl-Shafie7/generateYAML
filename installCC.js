@@ -1,0 +1,15 @@
+            CORE_PEER_LOCALMSPID="{org.name.toUpperCase()}MSP"
+            CORE_PEER_TLS_ROOTCERT_FILE=$PEER0_${org.name.toUpperCase()}CA
+            CORE_PEER_MSPCONFIGPATH=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/{org.name}.{Data.domainName}.com/users/Admin@{org.name}.{Data.domainName}.com/msp
+            CORE_PEER_ADDRESS=peer0.{org.name}.{Data.domainName}.com:{7051+peerPort}
+            set -x
+            peer chaincode install -n {Data.chaincodeName} -v 1.0 -l {CC_lang} -p {CC_Path} >&log.txt
+            res=$?
+            set +x
+            cat log.txt
+            verifyResult $res "Chaincode installation on peer0.{org.name} has failed"
+            echo "===================== Chaincode is installed on peer0.{org.name} ===================== "
+            echo
+            sleep 2
+
+

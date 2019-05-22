@@ -19,42 +19,42 @@ Organizations:
                 Type: Signature
                 Rule: "OR('OrdererMSP.admin')"
 
-    - &FBI
-        Name: FBIMSP
-        ID: FBIMSP
-        MSPDir: crypto-config/peerOrganizations/FBI.domain7.com/msp
+    - &Yarab
+        Name: YarabMSP
+        ID: YarabMSP
+        MSPDir: crypto-config/peerOrganizations/Yarab.domain7.com/msp
         Policies:
             Readers:
                 Type: Signature
-                Rule: "OR('FBIMSP.admin', 'FBIMSP.peer', 'FBIMSP.client')"
+                Rule: "OR('YarabMSP.admin', 'YarabMSP.peer', 'YarabMSP.client')"
             Writers:
                 Type: Signature
-                Rule: "OR('FBIMSP.admin', 'FBIMSP.client')"
+                Rule: "OR('YarabMSP.admin', 'YarabMSP.client')"
             Admins:
                 Type: Signature
-                Rule: "OR('FBIMSP.admin')"
+                Rule: "OR('YarabMSP.admin')"
 
         AnchorPeers:
-            - Host: peer0.FBI.domain7.com
+            - Host: peer0.Yarab.domain7.com
               Port: 7051
 
-    - &NBA
-        Name: NBAMSP
-        ID: NBAMSP
-        MSPDir: crypto-config/peerOrganizations/NBA.domain7.com/msp
+    - &YarabTany
+        Name: YarabTanyMSP
+        ID: YarabTanyMSP
+        MSPDir: crypto-config/peerOrganizations/YarabTany.domain7.com/msp
         Policies:
             Readers:
                 Type: Signature
-                Rule: "OR('NBAMSP.admin', 'NBAMSP.peer', 'NBAMSP.client')"
+                Rule: "OR('YarabTanyMSP.admin', 'YarabTanyMSP.peer', 'YarabTanyMSP.client')"
             Writers:
                 Type: Signature
-                Rule: "OR('NBAMSP.admin', 'NBAMSP.client')"
+                Rule: "OR('YarabTanyMSP.admin', 'YarabTanyMSP.client')"
             Admins:
                 Type: Signature
-                Rule: "OR('NBAMSP.admin')"
+                Rule: "OR('YarabTanyMSP.admin')"
 
         AnchorPeers:
-            - Host: peer0.NBA.domain7.com
+            - Host: peer0.YarabTany.domain7.com
               Port: 10051
 
 Capabilities:
@@ -154,8 +154,8 @@ Profiles:
         Consortiums:
             SampleConsortium:
                 Organizations:
-                    - *FBI
-                    - *NBA
+                    - *Yarab
+                    - *YarabTany
 
 
     TwoOrgsChannel:
@@ -164,8 +164,8 @@ Profiles:
         Application:
             <<: *ApplicationDefaults
             Organizations:
-                - *FBI
-                - *NBA
+                - *Yarab
+                - *YarabTany
 
             Capabilities:
                 <<: *ApplicationCapabilities
@@ -192,8 +192,8 @@ Profiles:
         Consortiums:
             SampleConsortium:
                 Organizations:
-                - *FBI
-                - *NBA
+                - *Yarab
+                - *YarabTany
 
 		
     SampleMultiNodeEtcdRaft:
@@ -225,7 +225,7 @@ Profiles:
         Consortiums:
             SampleConsortium:
                 Organizations:
-                - *FBI
-                - *NBA
+                - *Yarab
+                - *YarabTany
 
 

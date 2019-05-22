@@ -1,0 +1,33 @@
+  #!/bin/bash
+  
+  COUNTER=1
+  MAX_RETRY=10
+  DELAY=3
+  
+  echo "Channel name : CHANNEL_NAME"
+  echo "Chaincode path: CC_Path"
+  . scripts/utils.sh
+  
+  createChannel(){
+      CORE_PEER_LOCALMSPID="ORG0NAMEMSP"
+      CORE_PEER_TLS_ROOTCERT_FILE=$PEER0_ORG0NAMECA
+      CORE_PEER_MSPCONFIGPATH=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/org0nameSmall.domainName.com/users/Admin@org0nameSmall.domainName.com/msp
+      CORE_PEER_ADDRESS=peer0.org0nameSmall.domainName.com:7051
+      if [ -z "$CORE_PEER_TLS_ENABLED" -o "$CORE_PEER_TLS_ENABLED" = "false" ]; then
+          set -x
+          peer channel create -o ordererName.domainName.com:7050 -c CHANNEL_NAME -f ./channel-artifacts/channel.tx >&log.txt
+          res=$?
+          set +x
+      else
+          set -x
+          peer channel create -o ordererName.domainName.com:7050 -c CHANNEL_NAME -f ./channel-artifacts/channel.tx --tls $CORE_PEER_TLS_ENABLED --cafile $ORDERER_CA >&log.txt
+          res=$?
+          set +x
+      fi
+      cat log.txt
+      verifyResult $res "Channel creation failed"
+      echo "===================== Channel 'CHANNEL_NAME' created ===================== "
+      echo
+  }
+
+

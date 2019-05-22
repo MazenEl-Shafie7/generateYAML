@@ -5,11 +5,23 @@
 	URL : http://localhost:3000/generateYAML
 	Body:
 	{
-		"domainName":"domain",
+		"domainName":"domain7",
 		"numberOfOrganizations":"2",
-		"orgNames":["IBM","Apple"],
+		"orgNames":["Barcelona","Google"],
 		"numberOfPeers":"3",
 		"db":"Couchdb",
-		"ordererName":"orderer"
+		"ordererName":"HnaOrderer1",
+		"chainCodeName":"smartContract.js",
+		"chainCodeType":"node"
 	}
-5- check the output.yaml(docker.compose.e2e) & output2.yaml(crypto config) output3.yaml(configTx) files.
+5- check the output files:
+		1-docker-compose-e2e.yaml
+		2-crypto-config.yaml
+		3-configtx.yaml
+		4-buildScript.sh
+		5-genChaicodeScript.sh
+		6-genUtils.sh
+
+6-./buildScript.sh generate  
+  ./buildScript.sh up  
+  ./buildScript.sh down 
